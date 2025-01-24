@@ -1,19 +1,13 @@
 const App = () => {
     const [currentQuote, setCurrentQuote] = React.useState(null);
     const [quotes, setQuotes] = React.useState([]);
-    const [showModal, setShowModal] = React.useState(false);
     const [isDataFetched, setIsDataFetched] = React.useState(false);
-  
-    // Function to get query parameter value from URL
-    const getQueryParam = (param) => {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(param);
-    };
   
     // Fetch quotes from JSONBin using key and bin from query parameters
     const fetchQuotes = async () => {
-      const apiKey = getQueryParam("key");
-      const binId = getQueryParam("bin");
+      const urlParams = new URLSearchParams(window.location.search);
+      const apiKey = urlParams.get("key");
+      const binId = urlParams.get("bin");
   
       if (apiKey && binId) {
         try {
@@ -32,11 +26,9 @@ const App = () => {
           const data = await response.json();
           if (data.record && Array.isArray(data.record)) {
             setQuotes(data.record);
-            localStorage.setItem("quotes", JSON.stringify(data.record));
-            setIsDataFetched(true);
-  
             const randomIndex = Math.floor(Math.random() * data.record.length);
             setCurrentQuote(data.record[randomIndex]);
+            setIsDataFetched(true);
           } else {
             console.error("Fetched data is not in the expected format.");
           }
@@ -48,95 +40,20 @@ const App = () => {
       }
     };
   
-    // Load data from localStorage or fetch fresh data
     React.useEffect(() => {
-      const initializeQuotes = async () => {
-        try {
-          const storedQuotes = localStorage.getItem("quotes");
-  
-          if (storedQuotes) {
-            const parsedQuotes = JSON.parse(storedQuotes);
-  
-            if (Array.isArray(parsedQuotes) && parsedQuotes.length > 0) {
-              setQuotes(parsedQuotes);
-              const randomIndex = Math.floor(Math.random() * parsedQuotes.length);
-              setCurrentQuote(parsedQuotes[randomIndex]);
-              setIsDataFetched(true);
-            } else {
-              console.warn("Invalid quotes in localStorage. Fetching fresh data...");
-              localStorage.removeItem("quotes");
-              await fetchQuotes();
-            }
-          } else {
-            console.log("No quotes in localStorage. Fetching fresh data...");
-            await fetchQuotes();
-          }
-        } catch (error) {
-          console.error("Error initializing quotes:", error);
-          localStorage.removeItem("quotes");
-          await fetchQuotes();
-        }
-      };
-  
-      initializeQuotes();
+      fetchQuotes();
     }, []);
   
-    const handleRandomQuote = () => {
-      if (quotes.length > 0) {
-        const randomIndex = Math.floor(Math.random() * quotes.length);
-        setCurrentQuote(quotes[randomIndex]);
-      }
-    };
-  
-    const handleSettingsClick = () => {
-      setShowModal(true);
-    };
-  
-    const handleCloseModal = () => {
-      setShowModal(false);
-    };
-  
     if (!currentQuote && !isDataFetched) {
-      return <div className="loading">Loading quotes...</div>;
+      return <div className="loading">Loading...</div>;
     }
   
     return (
-      <div className="app-container">
-        <div className="quote-container">
-          {currentQuote ? (
-            <React.Fragment>
-              <p className="quote">"{currentQuote.quote}"</p>
-              <p className="author">- {currentQuote.author}</p>
-            </React.Fragment>
-          ) : (
-            <p className="quote">No quotes available.</p>
-          )}
+      <div className="widget-container">
+        <div className="quote">
+          "{currentQuote.quote}"
         </div>
-        <button onClick={handleRandomQuote} className="random-quote-button">
-          🎲
-        </button>
-  
-        <div className="settings-icon" onClick={handleSettingsClick}>
-          ⚙️
-        </div>
-  
-        {showModal && (
-          <div className="modal-overlay" onClick={handleCloseModal}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <div className="modal-header">
-                <div className="settings-icon" onClick={handleCloseModal}>
-                  ⚙️
-                </div>
-                <h2>Settings</h2>
-              </div>
-              <div className="modal-body">
-                <button onClick={fetchQuotes} className="fetch-data-button">
-                  Fetch Data
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        <div className="author">- {currentQuote.author}</div>
       </div>
     );
   };

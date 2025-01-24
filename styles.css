@@ -1,235 +1,61 @@
-/* Global Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+body {
+  margin: 0;
+  font-family: 'Helvetica Neue', sans-serif;
+  background-color: #121212; /* Dark background */
+  color: #e0e0e0; /* Light text color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
 
-  /* Small Plus Button (Right side of the screen) */
-.add-quote-button {
-    position: fixed;
-    bottom: 20px; /* Distance from the bottom */
-    right: 20px;  /* Distance from the right */
-    width: 50px;
-    height: 50px;
-    font-size: 2rem;
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 50%;
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-  }
-  
-  .add-quote-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    background-color: #66bb6a;
-  }
-  
-  .add-quote-button:active {
-    transform: scale(0.95);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    background-color: #66bb6a;
-  }
-  
-  
-  body {
-    font-family: 'Helvetica Neue', sans-serif;
-    background-color: #121212; /* Dark background */
-    color: #e0e0e0; /* Light text color for readability */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    position: relative;
-  }
-  
-  .app-container {
-    text-align: center;
-    padding: 20px;
-    border-radius: 15px;
-    background-color: #1e1e1e; /* Dark card background */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Darker shadow for contrast */
-    width: 80%;
-    max-width: 600px; /* Increased max width for larger screens */
-    box-sizing: border-box;
-  }
-  
-  .quote-container {
-    margin-bottom: 20px;
-  }
-  
-  .quote {
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: #e0e0e0; /* Light text color */
-    margin-bottom: 10px;
-    line-height: 1.5;
-  }
-  
-  .author {
-    font-size: 1.1rem;
-    font-style: italic;
-    color: #b0b0b0; /* Slightly dimmed author text */
-  }
-  
-  .random-quote-button {
-    background-color: transparent;
-    border: 2px solid #4CAF50; /* Green border for button */
-    color: #4CAF50; /* Green text color */
-    font-size: 1.8rem;
-    padding: 12px 30px; /* Rectangular shape */
-    border-radius: 8px; /* Slight rounding for rectangle */
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.3s ease, background-color 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
-    width: auto;
-    max-width: 250px; /* Prevents button from getting too large */
-  }
-  
-  .random-quote-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
-    background-color: #333; /* Darker background on hover for better contrast */
-  }
-  
-  /* Effect when the button is pressed */
-  .random-quote-button:active {
-    transform: scale(0.95); /* Shrink slightly */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Deeper shadow when pressed */
-    background-color: #444; /* Slightly darker background during press */
-  }
-  
-  /* Settings Icon */
-  .settings-icon {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 2rem;
-    color: #4CAF50;
-    cursor: pointer;
-    transition: transform 0.3s ease, color 0.3s ease;
-  }
-  
-  .settings-icon:hover {
-    transform: rotate(360deg); /* Rotate on hover */
-    color: #66bb6a; /* Lighter green on hover */
-  }
-  
-  /* Modal Overlay */
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-  }
-  
-  /* Modal Content */
-  .modal-content {
-    background-color: #1e1e1e;
-    padding: 30px;
-    border-radius: 10px;
-    position: relative;
-    max-width: 500px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  /* Modal Header (Settings Gear and Title) */
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .modal-header h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    color: #e0e0e0;
-  }
-  
-  .modal-body {
-    margin-top: 20px;
-    color: #b0b0b0;
-  }
-  
-  /* Close Modal Button */
-  .modal-header .settings-icon {
-    font-size: 2rem;
-    cursor: pointer;
-    color: #e0e0e0;
-    transition: color 0.3s ease;
-  }
-  
-  .modal-header .settings-icon:hover {
-    color: #66bb6a;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 600px) {
-    .quote {
-      font-size: 1.3rem;
-    }
-  
-    .author {
-      font-size: 1rem;
-    }
-  
-    .random-quote-button {
-      font-size: 1.6rem;
-      padding: 10px 25px; /* Adjust padding for mobile */
-    }
-  
-    .settings-icon {
-      font-size: 1.8rem; /* Adjust icon size for smaller screens */
-    }
-  
-    .modal-content {
-      padding: 20px;
-    }
-  
-    .modal-header h2 {
-      font-size: 1.3rem;
-    }
-  }
-  
+.iframe-container {
+  text-align: center;
+  padding: 20px;
+  background-color: #1e1e1e; /* Slightly lighter dark background */
+  border-radius: 10px;
+  width: 100%;
+  max-width: 450px; /* Fixed width for iframe */
+  box-sizing: border-box;
+}
 
-/* Fetch Data Button in Modal */
-.fetch-data-button {
-    background-color: transparent;
-    border: 2px solid #4CAF50; /* Green border for consistency */
-    color: #4CAF50; /* Green text color */
-    font-size: 1.4rem;
-    padding: 12px 30px; /* Rectangular shape */
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.3s ease, background-color 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
-    width: auto;
-    max-width: 250px;
-    margin-top: 20px;
-  }
-  
-  /* Hover Effect */
-  .fetch-data-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
-    background-color: #333; /* Darker background on hover for better contrast */
-  }
-  
-  /* Active Effect when button is pressed */
-  .fetch-data-button:active {
-    transform: scale(0.95); /* Shrink slightly */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    background-color: #444; /* Slightly darker background during press */
-  }
-  
+.quote {
+  padding: 1rem;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.author {
+  font-size: 1rem;
+  font-style: italic;
+  color: #b0b0b0;
+  margin-bottom: 20px;
+}
+
+.random-quote-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.random-quote-button:hover {
+  background-color: #66bb6a;
+  transform: scale(1.05);
+}
+
+.random-quote-button:active {
+  transform: scale(0.95);
+  background-color: #388e3c;
+}
+
+.loading {
+  font-size: 1rem;
+  color: #e0e0e0;
+}
